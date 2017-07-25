@@ -3,7 +3,8 @@
 /*
  * This version sends commands and values
  * the values are modified by the slvae, depending on the coammand
- * and the new value is sent back to the master
+ * and the new value is sent back to the master.
+ * It is only interesting to monitor the Master in a ternminal
  */
 
 App *app;

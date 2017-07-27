@@ -7,20 +7,13 @@
 
 class App{
   protected:
-    static const int pauseBetweenSends   = 20,  // microseconds
-                     bigBuffSize         = 100, // enough space for a long string
+    static const int pauseBetweenSends   = 10,  // microseconds
+                     bigBuffSize         = 20, // enough space for a long string
                      slaveProcessingTime = 1000; // millisecs
-    static const byte nullChar =  '!';
-    typedef struct dataStruct{
-      byte a;
-      int b;
-      long c;
-    };
+    static const byte nullChar =  '#';
 
-  volatile dataStruct data;
-
-  void outgointMsg(char* buf) const;
-  byte transferAndWait (const byte what) const;
+    void outgointMsg(char* buf) const;
+    byte transferAndWait (const byte what) const;
 
   public:
     App();

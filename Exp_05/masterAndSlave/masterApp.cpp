@@ -11,14 +11,11 @@ char MasterApp::nextChar2Send() const{
 
 MasterApp::MasterApp():App(){
   SPI.begin ();
-
-  // Slow down the master a bit
-  //SPI.setClockDivider(SPI_CLOCK_DIV8);
   
   Serial.println("Master");
 
   // prime the pump
-   char buff[bigBuffSize];
+  char buff[bigBuffSize];
   outgointMsg(buff);
   Serial.print(buff);
   
@@ -31,29 +28,22 @@ MasterApp::MasterApp():App(){
   // enable Slave Select
   digitalWrite(SS, LOW);    
 
-  // send outgoing character, ignore resonse
+  // send outgoing character, ignore resonse, this primes the pump
   transferAndWait (outgoing);  
   // disable Slave Select
   digitalWrite(SS, HIGH);
-  
 }
-void MasterApp::loop(){
-  
+
+void MasterApp::loop(){  
   char outgoing  = nextChar2Send();
   
   // enable Slave Select
   digitalWrite(SS, LOW);    
 
   Serial.print("Received: ");
-  // send outgoing character, receive resonse to previous send
+  // send next outgoing character, receive resonse to previous send
   Serial.println((char)transferAndWait (outgoing));  
 
-/*
-  // send a null and recover response to previous send
-  // note: this empty send allows for the next cycle to work
-  Serial.print("Received: ");
-  Serial.println((char)transferAndWait (nullChar));  
-  */
   // disable Slave Select
   digitalWrite(SS, HIGH);
 
@@ -63,11 +53,10 @@ void MasterApp::loop(){
   char buff[bigBuffSize];
   outgointMsg(buff);
   Serial.print(buff);
-   // print outgoing character
+  
+   // print outgoing character that was just sent
   Serial.print("Sent: ");
   Serial.println(outgoing);
-  
-  
 }
 
 

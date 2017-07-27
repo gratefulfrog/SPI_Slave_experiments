@@ -1,7 +1,7 @@
 #include "app.h"
 
 /*
- * This version sends lowercase chacters and receives upper case characters in response.
+ * This version sends lowercase characters and receives upper case characters in response.
  * It is interesting to monitor both Master and Slave in a ternminal
  */
 

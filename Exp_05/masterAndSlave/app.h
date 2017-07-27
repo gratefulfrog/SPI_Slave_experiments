@@ -9,7 +9,7 @@ class App{
   protected:
     static const int pauseBetweenSends   = 20,  // microseconds
                      bigBuffSize         = 100, // enough space for a long string
-                     slaveProcessingTime = 2000; // millisecs
+                     slaveProcessingTime = 1000; // millisecs
     static const byte nullChar =  '!';
     typedef struct dataStruct{
       byte a;

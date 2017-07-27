@@ -29,7 +29,7 @@ void SlaveApp::SlaveApp::loop(){
 void SlaveApp::SPI_ISR(){
   command = SPDR;
   flag = 0;
-  
+ 
   if (command !=nullChar){
     outChar =  char(command-32);
     SPDR = outChar;

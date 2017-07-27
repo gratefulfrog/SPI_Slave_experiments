@@ -32,8 +32,8 @@ class App{
 
 class SlaveApp: public App{
   protected:
-    volatile byte command = 0;
-    volatile byte flag = 0;
+    volatile byte command = 0,
+                  flag    = 0;
     volatile char outChar = nullChar;
     
   public:

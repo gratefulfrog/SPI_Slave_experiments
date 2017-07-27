@@ -30,17 +30,18 @@ MasterApp::MasterApp():App(){
 
   // send outgoing character, ignore resonse, this primes the pump
   transferAndWait (outgoing);  
+  
   // disable Slave Select
   digitalWrite(SS, HIGH);
 }
 
 void MasterApp::loop(){  
   char outgoing  = nextChar2Send();
+  Serial.print("Received: ");
   
   // enable Slave Select
   digitalWrite(SS, LOW);    
-
-  Serial.print("Received: ");
+ 
   // send next outgoing character, receive resonse to previous send
   Serial.println((char)transferAndWait (outgoing));  
 

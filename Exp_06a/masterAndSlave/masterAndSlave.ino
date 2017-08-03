@@ -2,6 +2,9 @@
 
 /*
  * This version sends lowercase characters and receives a struct in response???? .
+ * The master sends a single lower case lettter,
+ * The slave sends upper case version of the char until it gets a new char, i.e. new command.
+ * The master reads 3 chars into a dataStruct
  * It is interesting to monitor both Master and Slave in a ternminal.
  * 2017 08 03 works!!!
  */

@@ -4,12 +4,10 @@ App::App(){
   Serial.begin (115200);
 }
 
-void App::outgointMsg(char* buf) const{
-  // puts a char[] into the arg buf,
-
+void App::printSendCount() const{
   static int sendCount = 0;
   String s = "Send: " + String(sendCount++) + "\n";
-  s.toCharArray(buf,s.length()+1);
+  Serial.print(s);
 }
 
 byte App::transferAndWait (const byte what) const{

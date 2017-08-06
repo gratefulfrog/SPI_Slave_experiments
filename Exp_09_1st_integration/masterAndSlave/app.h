@@ -23,7 +23,7 @@ class App{
     void printSendCount() const;
     byte transferAndWait (const byte what) const;
 
-    void printReply(unsigned long v, boolean isTime);
+    void printReply(unsigned long &v, boolean isTime);
     void printReply(timeValStrut_t &tvs);
 
 
@@ -70,6 +70,8 @@ class SlaveApp: public App{
                  counter;
 
     Board *board;
+
+    volatile boolean init = false;
     
     void fillStruct(byte inCar);
     void printOutData() const;

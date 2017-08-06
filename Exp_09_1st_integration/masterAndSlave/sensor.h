@@ -17,11 +17,11 @@ typedef struct timeValStrut_t {
 class Sensor {
   protected:
     sensorID_t sid;
-    TimeStamper    *ts =  NULL;
+    //TimeStamper    *ts =  NULL;
     virtual sensorValue_t readSensorValue() = 0;
 
   public:
-    Sensor(sensorID_t iid, TimeStamper *t);
+    Sensor(sensorID_t iid); //, TimeStamper *t);
     Sensor();
     void getValue(timeValStrut_t &tvs) const;
 
@@ -33,7 +33,7 @@ class VibrationSensor: public Sensor{
     virtual sensorValue_t readSensorValue();
     
   public:
-    VibrationSensor(sensorID_t iid, TimeStamper *t);
+    VibrationSensor(sensorID_t iid);//, TimeStamper *t);
     VibrationSensor();
 };
 
@@ -42,7 +42,7 @@ class LightSensor: public Sensor{
     virtual sensorValue_t readSensorValue();
      
   public:
-    LightSensor(sensorID_t iid, TimeStamper *t);
+    LightSensor(sensorID_t iid); //, TimeStamper *t);
     LightSensor();
 };
 

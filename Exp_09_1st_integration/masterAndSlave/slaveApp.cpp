@@ -11,27 +11,37 @@ SlaveApp::SlaveApp(): App(){
   SPI.attachInterrupt();  
   while(!Serial);
   Serial.println("Slave");
-
+  
   newBoard();
 }
 
 void SlaveApp::loop(){
-  board->loop();
-  board->showQSize();
+  static unsigned long time0;
+  if (init){
+    board->loop();
+    board->showQSize();
+  }
+  else if (command == 't'){
+    time0 =  micros();
+    board->setT0(time0);
+    board->clearQ();
+
+    lim = sizeof(unsigned long);
+    outPtr = (byte *) &time0;
+    Serial.print("init t0: ");
+    Serial.println(time0);
+    init=true;
+  }
 }
 
 void SlaveApp::fillStruct(byte inCar){
   static boardID outBID = board->getGUID();
   static timeValStrut_t outTVS;
-  static unsigned long time0;
   sendI = 0;
-  //flag++;
   
   switch (inCar){
     case 't':
-      lim = sizeof(unsigned long);
-      time0 = micros();
-      outPtr = (byte *) &time0;
+      init = false;
       break;
     case 'i':
       lim = sizeof (boardID);
@@ -86,14 +96,14 @@ void SlaveApp::newBoard(){
   const byte nbSensors = 2;
   const sensorID_t vibSID = 0,
                    lightSID = 1;
-  TimeStamper *t = new TimeStamper(micros());
+  //TimeStamper *t = new TimeStamper(micros());
   
   Sensor **sVec = new Sensor*[nbSensors];
   
-  sVec[vibSID] = new VibrationSensor(vibSID,t);
-  sVec[lightSID] = new LightSensor(lightSID,t);
+  sVec[vibSID] = new VibrationSensor(vibSID);
+  sVec[lightSID] = new LightSensor(lightSID);
  
   board = new Board(bid,nbSensors, sVec);
-  
+  //board->getGUID();
 }
 

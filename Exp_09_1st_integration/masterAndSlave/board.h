@@ -24,6 +24,8 @@ class Board{
 
     char incomingChar;
     boolean incomingFlag = false;
+
+    TimeStamper    *ts =  NULL;
     
     Sensor **sensorVec;
     Q<timeValStrut_t> *q;
@@ -45,6 +47,8 @@ class Board{
     void serialEvent();
     timeValStrut_t *pop();
     void showQSize() const;
+    void  setT0(timeStamp_t time0);
+    void clearQ();
 };
 
 #endif

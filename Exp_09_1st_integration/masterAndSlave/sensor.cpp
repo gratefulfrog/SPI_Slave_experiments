@@ -1,14 +1,16 @@
 #include "sensor.h"
 
 
-Sensor::Sensor(sensorID_t iid, TimeStamper *t): sid(iid), ts(t){
+Sensor::Sensor(sensorID_t iid): sid(iid){
+  Serial.print("SensorID: ");
+  Serial.println(sid);
 }
 
 Sensor::Sensor(){}
 
 void Sensor::getValue(timeValStrut_t &tvs) const{
   tvs.id = sid;
-  tvs.t = ts->getTimeStamp();
+  //tvs.t = ts->getTimeStamp();
   //Serial.println(readSensorValue());
   tvs.v = readSensorValue();
 }
@@ -19,15 +21,15 @@ void Sensor::serialPrintTVS(timeValStrut_t &tvs){
   timeStamp_t   t;
   sensorValue_t v;
    */
-  Serial.print("sensorID_t :");
+  Serial.print("sensorID_t : ");
   Serial.println(tvs.id);
-  Serial.print("timeStamp_t :");
+  Serial.print("timeStamp_t :" );
   Serial.println(tvs.t);
-  Serial.print("sensorValue_t :");
+  Serial.print("sensorValue_t: ");
   Serial.println(tvs.v);
 }
 
-VibrationSensor::VibrationSensor(sensorID_t iid, TimeStamper *t): Sensor(iid,t){}
+VibrationSensor::VibrationSensor(sensorID_t iid): Sensor(iid){}
 VibrationSensor::VibrationSensor():Sensor(){}
 
 // for tests
@@ -42,7 +44,7 @@ sensorValue_t VibrationSensor::readSensorValue(){
   return res;
 }
 
-LightSensor::LightSensor(sensorID_t iid, TimeStamper *t): Sensor(iid,t){}
+LightSensor::LightSensor(sensorID_t iid): Sensor(iid){}
 LightSensor::LightSensor():Sensor(){}
 
 // for tests

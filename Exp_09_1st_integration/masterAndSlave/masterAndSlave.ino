@@ -1,7 +1,8 @@
 #include "app.h"
 
 /*
- * This version is Master polls slave with commands 'i' or 'a' via SPI: 
+ * This version is Master polls slave with commands 't' 'i' or 'a' via SPI: 
+ **  t: sets slave time to zero, clears q, then ready to go!
  **  i: identify expets a GUID in repsonse 
  **  a: acquire expects a timeValStrut_t in respnse
  * Slave repsonds apprpriately.
@@ -42,9 +43,10 @@ void loop() {
  time loop() runs, so using delay inside loop can delay
  response.  Multiple bytes of data may be available.
  */
+ /*
 void serialEvent() {
   //Serial.println("serialevent");
   app->serialEvent();
 }
-
+*/
 

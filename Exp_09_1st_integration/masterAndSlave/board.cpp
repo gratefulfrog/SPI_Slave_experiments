@@ -7,6 +7,7 @@ Board::Board(boardID iid,
                                 nbSensors(nbSen) {
   sensorVec = sVec;
   q = new Q<timeValStrut_t>;
+  ts = new TimeStamper(micros());
 }
 
 void Board::updateSensorData(){
@@ -15,6 +16,7 @@ void Board::updateSensorData(){
 
   //Serial.println((long)sensorVec[j]);
   sensorVec[j]->getValue(*tvs);
+  tvs->t = ts->getTimeStamp();
   noInterrupts();
   q->push(tvs);
   interrupts();
@@ -36,6 +38,8 @@ void Board::getData(){
   Serial.println("EOQ !");
 }
 boardID Board::getGUID() const{
+  //Serial.print("Board GUID: ");
+  //Serial.println(guid);
   return guid;
 }
 
@@ -103,5 +107,13 @@ timeValStrut_t *Board::pop(){
 void Board::showQSize() const{
   Serial.print("Q nbObjects: ");
   Serial.println(q->qNbObjects());
+}
+
+void Board::setT0(timeStamp_t time0){
+  ts->setTime0(time0);
+}
+
+void Board::clearQ(){
+  while(pop());
 }
 

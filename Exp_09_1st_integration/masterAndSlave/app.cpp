@@ -20,12 +20,12 @@ void App::serialEvent(){
   Serial.println("App.serialEvent...");
 }
 
-void App::printReply(unsigned long v, boolean isTime){
+void App::printReply(unsigned long &v, boolean isTime){
   if (isTime){
-    Serial.print("Board ID: ");
+    Serial.print("Slave time: ");
   }
   else{
-    Serial.print("Slave time: ");
+    Serial.print("Board ID: ");
   }
   Serial.println(v);
 }

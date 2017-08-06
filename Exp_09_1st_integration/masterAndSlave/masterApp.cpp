@@ -4,7 +4,7 @@ char MasterApp::nextChar2Send() const{
   static byte nextIndex = 0;
   const static char letters[] = "tia"; //bcdefghijklmnopqrstuvwxyz";
   char res = letters[nextIndex];
-  nextIndex = 0;  // set this to 1 to send an 'a'
+  nextIndex = (nextIndex == 0) ? 1 : 2;  // set this to 2 to send an 'a'
   return res;
 }
 

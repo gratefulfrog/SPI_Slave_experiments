@@ -5,10 +5,12 @@
 
 #include "timeStamper.h"
 
+#define NULL_SENSOR_ID (255)
+
 typedef long sensorValue_t;
 typedef byte sensorID_t;
 
-typedef struct timeValStrut_t {
+typedef struct timeValStruct_t {
   sensorID_t id;
   timeStamp_t   t;
   sensorValue_t v;
@@ -23,9 +25,11 @@ class Sensor {
   public:
     Sensor(sensorID_t iid); //, TimeStamper *t);
     Sensor();
-    void getValue(timeValStrut_t &tvs) const;
+    void getValue(timeValStruct_t &tvs) const;
 
-    static void serialPrintTVS(timeValStrut_t &tvs);
+    static void serialPrintTVS(timeValStruct_t &tvs);
+
+    static const sensorID_t nullSensorID = NULL_SENSOR_ID;
 };
 
 class VibrationSensor: public Sensor{

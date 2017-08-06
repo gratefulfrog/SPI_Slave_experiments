@@ -28,24 +28,26 @@ class Board{
     TimeStamper    *ts =  NULL;
     
     Sensor **sensorVec;
-    Q<timeValStrut_t> *q;
+    Q<timeValStruct_t> *q;
 
     void updateSensorData();
     void getData();
    
 
     void sendSPI(boardID id);
-    void sendSPI(timeValStrut_t &tvs);
+    void sendSPI(timeValStruct_t &tvs);
     void processCommand();
     
 
   public:
+
+    static const timeValStruct_t nullReturn; 
     
     Board(boardID iid, int nbSen, Sensor **sVec);
     boardID getGUID() const;
     void loop();  
     void serialEvent();
-    timeValStrut_t *pop();
+    timeValStruct_t *pop();
     void showQSize() const;
     void  setT0(timeStamp_t time0);
     void clearQ();

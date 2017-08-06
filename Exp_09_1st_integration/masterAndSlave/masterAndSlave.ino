@@ -4,10 +4,11 @@
  * This version is Master polls slave with commands 't' 'i' or 'a' via SPI: 
  **  t: sets slave time to zero, clears q, then ready to go!
  **  i: identify expets a GUID in repsonse 
- **  a: acquire expects a timeValStrut_t in respnse
+ **  a: acquire expects a timeValStruct_t in respnse
  * Slave repsonds apprpriately.
  * Slave will crash if Q over flows!
  * Slave needs to pause between reading sensors or the q will over flow since the Master cannot get the replies fast enough...
+ * if no slave data is available at poll, the nullReturn is sent.
  */
 
 App *app;

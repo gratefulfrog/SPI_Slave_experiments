@@ -35,7 +35,7 @@ MasterApp::MasterApp():App(){
 void MasterApp::readReply(char command, char nextCommand){
   boardID inBoardID;
   unsigned long slaveTime;
-  timeValStrut_t inTVS;
+  timeValStruct_t inTVS;
   
   switch (command){
     case 't':

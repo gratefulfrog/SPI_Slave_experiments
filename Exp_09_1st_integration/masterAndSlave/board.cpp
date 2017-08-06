@@ -1,18 +1,21 @@
 #include "board.h"
 
+const timeValStruct_t Board::nullReturn = {Sensor::nullSensorID,0,0};
+    
+
 Board::Board(boardID iid, 
              int nbSen, 
              Sensor ** sVec) :  nbDataGets(OUTPUT_BURST_LENGTH),
                                 guid(iid), 
                                 nbSensors(nbSen) {
   sensorVec = sVec;
-  q = new Q<timeValStrut_t>;
+  q = new Q<timeValStruct_t>;
   ts = new TimeStamper(micros());
 }
 
 void Board::updateSensorData(){
   static byte j = 0;
-  timeValStrut_t *tvs = new timeValStrut_t;
+  timeValStruct_t *tvs = new timeValStruct_t;
 
   //Serial.println((long)sensorVec[j]);
   sensorVec[j]->getValue(*tvs);
@@ -26,7 +29,7 @@ void Board::updateSensorData(){
 
 void Board::getData(){
   for (int i=0;i< nbDataGets;i++){
-    timeValStrut_t *tvs = q->pop();
+    timeValStruct_t *tvs = q->pop();
     if (tvs){   // we got one!!
       Sensor::serialPrintTVS(*tvs);
       delete tvs;
@@ -64,7 +67,7 @@ void Board::sendSPI(boardID id){
   Serial.println(id);
 }
 
-void sendSPI(timeValStrut_t &tvs){
+void sendSPI(timeValStruct_t &tvs){
   Sensor::serialPrintTVS(tvs);
 }
 
@@ -85,12 +88,12 @@ void Board::serialEvent(){
     incomingFlag = true;
   }
 } 
-timeValStrut_t *Board::pop(){
+timeValStruct_t *Board::pop(){
   noInterrupts();
-  timeValStrut_t *tvs = q->pop();
+  timeValStruct_t *tvs = q->pop();
   interrupts();
-  static timeValStrut_t res;
-  static timeValStrut_t *resPtr;
+  static timeValStruct_t res;
+  static timeValStruct_t *resPtr;
   if (tvs){
     res.id = tvs->id;
     res.t  = tvs->t;

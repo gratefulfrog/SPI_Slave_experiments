@@ -36,7 +36,7 @@ void SlaveApp::loop(){
 
 void SlaveApp::fillStruct(byte inCar){
   static boardID outBID = board->getGUID();
-  static timeValStrut_t outTVS;
+  static timeValStruct_t outTVS;
   sendI = 0;
   
   switch (inCar){
@@ -48,17 +48,17 @@ void SlaveApp::fillStruct(byte inCar){
       outPtr = (byte *) &outBID;
       break;
     default:
-      timeValStrut_t *tempTVS = board->pop(); 
+      lim = sizeof (timeValStruct_t);
+      timeValStruct_t *tempTVS = board->pop(); 
       if(tempTVS){
-        lim = sizeof (timeValStrut_t);
+        
         outTVS.id = tempTVS->id;
         outTVS.t  = tempTVS->t;
         outTVS.v  = tempTVS->v;
         outPtr = (byte *) &outTVS;
       }
       else{
-        lim = 0;
-        outPtr = NULL;
+        outPtr = (byte *) &Board::nullReturn;
       }
       break;
   } 

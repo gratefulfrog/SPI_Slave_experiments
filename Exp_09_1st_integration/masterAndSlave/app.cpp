@@ -30,6 +30,6 @@ void App::printReply(unsigned long &v, boolean isTime){
   Serial.println(v);
 }
 
-void App::printReply(timeValStrut_t &tvs){
+void App::printReply(timeValStruct_t &tvs){
   Sensor::serialPrintTVS(tvs);
 }

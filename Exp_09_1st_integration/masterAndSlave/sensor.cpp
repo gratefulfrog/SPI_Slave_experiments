@@ -8,14 +8,14 @@ Sensor::Sensor(sensorID_t iid): sid(iid){
 
 Sensor::Sensor(){}
 
-void Sensor::getValue(timeValStrut_t &tvs) const{
+void Sensor::getValue(timeValStruct_t &tvs) const{
   tvs.id = sid;
   //tvs.t = ts->getTimeStamp();
   //Serial.println(readSensorValue());
   tvs.v = readSensorValue();
 }
 
-void Sensor::serialPrintTVS(timeValStrut_t &tvs){
+void Sensor::serialPrintTVS(timeValStruct_t &tvs){
   /*
   sensorID_t id;
   timeStamp_t   t;

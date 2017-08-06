@@ -18,13 +18,13 @@ class App{
                                         {'a', sizeof(sensorValue_t)}};
     
     static const int bigBuffSize         = 20, // enough space for a long string
-                     slaveProcessingTime = 0; // millisecs
+                     slaveProcessingTime = 0; // millisecs  with 6 it is too slow for the slave and the slave overfills its q !
 
     void printSendCount() const;
     byte transferAndWait (const byte what) const;
 
     void printReply(unsigned long &v, boolean isTime);
-    void printReply(timeValStrut_t &tvs);
+    void printReply(timeValStruct_t &tvs);
 
 
     typedef struct DataStruct{

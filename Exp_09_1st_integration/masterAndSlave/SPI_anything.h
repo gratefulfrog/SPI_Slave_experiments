@@ -12,7 +12,7 @@ template <typename T> unsigned int SPI_writeAnything (const T& value){
                 lim = sizeof value;
     for (; i < lim; i++){
       SPI.transfer(*p++);
-      delay(pauseBetweenSends);
+      delayMicroseconds(pauseBetweenSends);
     }
     return i;
   }  // end of SPI_writeAnything

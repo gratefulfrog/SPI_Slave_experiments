@@ -7,6 +7,7 @@
 #include "SPI_anything.h"
 #include "board.h"
 
+// set the following value to (1) for maximum slave speed!
 #define SLAVE_LOOP_ITERATIONS (1000)
 
 class App{

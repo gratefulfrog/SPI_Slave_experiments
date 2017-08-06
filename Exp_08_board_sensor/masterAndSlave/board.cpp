@@ -2,8 +2,7 @@
 
 Board::Board(boardID iid, 
              int nbSen, 
-             Sensor ** sVec) : nbLoopIterations(NB_LOOP_ITERATIONS), 
-                                nbDataGets(OUTPUT_BURST_LENGTH),
+             Sensor ** sVec) :  nbDataGets(OUTPUT_BURST_LENGTH),
                                 guid(iid), 
                                 nbSensors(nbSen) {
   sensorVec = sVec;
@@ -11,18 +10,18 @@ Board::Board(boardID iid,
 }
 
 void Board::updateSensorData(){
-  for (int i=0;i<nbLoopIterations;i++){
-    for(int j=0;j<nbSensors;j++){
-      timeValStrut_t *tvs = new timeValStrut_t;
-      //Serial.println((long)sensorVec[j]);
-      sensorVec[j]->getValue(*tvs);
-      noInterrupts();
-      q->push(tvs);
-      interrupts();
-      
-    }
-  }
+  static byte j = 0;
+  timeValStrut_t *tvs = new timeValStrut_t;
+
+  //Serial.println((long)sensorVec[j]);
+  sensorVec[j]->getValue(*tvs);
+  noInterrupts();
+  q->push(tvs);
+  interrupts();
+  j = (j+1) % nbSensors;
 }
+
+
 void Board::getData(){
   for (int i=0;i< nbDataGets;i++){
     timeValStrut_t *tvs = q->pop();

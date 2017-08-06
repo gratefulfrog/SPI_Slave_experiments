@@ -34,6 +34,8 @@ void setup() {
 }
 
 void loop() {
+  // counter strategy is used to slow down slave data production and thus allow human observer some
+  // time to see what's going on
   if (isMaster || !counter){
     app->loop();
   }

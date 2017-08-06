@@ -5,15 +5,13 @@
 #include "sensor.h"
 #include "q.h"
 
-#define NB_LOOP_ITERATIONS    (2)
 #define OUTPUT_BURST_LENGTH   (Q_LENGTH)
 
 typedef long boardID; // GUID
 
 class Board{
   protected:
-    const int nbLoopIterations, 
-              nbDataGets;       
+    const int nbDataGets;       
     
     const byte nbSensors;
     const boardID guid;

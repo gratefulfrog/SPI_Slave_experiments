@@ -11,7 +11,7 @@
  * if no slave data is available at poll, the nullReturn is sent.
  * 
  * Tuniing the Timing : This is needed to avoid board Q overflow and catastrophic failures. It seems that the fastest we 
- *                    : do is a sensor reading every 7740 microseconds, which is not great... 
+ *                    : do is a sensor reading every 1032 microseconds, which is not so great... 
  * 
  * SPI_anything.h:  
  **  const int pauseBetweenSends : is the time in micro-seconds that is waited after an SPI.transfer or a digitalWrite(SS, LOW); 

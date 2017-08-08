@@ -23,6 +23,9 @@
  **  SLAVE_LOOP_ITERATIONS : the frequency of board sensor data aquisitions, 
  *                         : i.e. 1 time in SLAVE_LOOP_ITERATIONS; value 1 would be every loop, but then the q will overflow!
  *  
+ * Output : 
+ **  Master : will Serial.print the latest data struct if the user provides a character as serial input.
+ **  Slave  : will Serial.print the longest length of the Q each time the lenght increases.
  */
 
 App *app;

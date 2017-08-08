@@ -6,7 +6,8 @@
 const char nullChar = '#';
 const int pauseBetweenSends = 20; //us
 
-template <typename T> unsigned int SPI_writeAnything (const T& value){
+template <typename T> 
+unsigned int SPI_writeAnything (const T& value){
   const byte * p = (const byte*) &value;
   unsigned int i  = 0,
               lim = sizeof value;
@@ -17,7 +18,8 @@ template <typename T> unsigned int SPI_writeAnything (const T& value){
   return i;
 }
 
-template <typename T> unsigned int SPI_readAnything(T& value){
+template <typename T> 
+unsigned int SPI_readAnything(T& value){
   byte * p = (byte*) &value;
   unsigned int i = 0,
                lim = sizeof value;
@@ -28,7 +30,8 @@ template <typename T> unsigned int SPI_readAnything(T& value){
   return i;
 }
  
-template <typename T> unsigned int SPI_readAnything_reprime(T& value, byte prime){
+template <typename T> 
+unsigned int SPI_readAnything_reprime(T& value, byte prime){
   byte * p = (byte*) &value;
   unsigned int i =0,
                limLessOne = (sizeof value) -1;
@@ -41,7 +44,8 @@ template <typename T> unsigned int SPI_readAnything_reprime(T& value, byte prime
   return i;
 }
  
-template <typename T> unsigned int SPI_readAnything_ISR(T& value){
+template <typename T> 
+unsigned int SPI_readAnything_ISR(T& value){
   byte * p = (byte*) &value;
   unsigned int i=1,
                lim = sizeof value;

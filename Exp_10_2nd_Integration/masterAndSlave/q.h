@@ -25,7 +25,7 @@ class Q{
     Q(){
       // this init is not really necessary, but I like things to be clean in case of a future need to debug.
       for (unsigned int i = 0;  i < qLen;i++){
-        q[i] = NULL; //new T();
+        q[i] = NULL;
       }
     }
     

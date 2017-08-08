@@ -9,11 +9,6 @@
 
 // #define DEBUG
 
-struct assoc_t {
-  char c;
-  unsigned int size;
-};
-
 class App{
   protected:
     static const int bigBuffSize         = 50, // enough space for a long string

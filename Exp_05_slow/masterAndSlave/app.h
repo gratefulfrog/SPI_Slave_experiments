@@ -7,7 +7,7 @@
 
 class App{
   protected:
-    static const int pauseBetweenSends   = 20,  //10 // microseconds
+    static const int pauseBetweenSends   = 10,  //10 // microseconds
                      bigBuffSize         = 20, // enough space for a long string
                      slaveProcessingTime = 1000; // millisecs
     static const byte nullChar =  '#';

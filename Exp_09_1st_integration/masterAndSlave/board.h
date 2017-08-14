@@ -8,7 +8,7 @@
 #define OUTPUT_BURST_LENGTH   (Q_LENGTH)
 // set the following value to (1) for maximum slave speed!
 // SPI to UNO seems like 6 is the fastest we can go!
-#define SLAVE_LOOP_ITERATIONS (6) 
+#define SLAVE_LOOP_ITERATIONS (6000) 
 
 typedef unsigned long boardID; // GUID
 typedef unsigned long microTime;

@@ -10,7 +10,7 @@ char MasterApp::nextChar2Send() const{
 }
 
 MasterApp::MasterApp():App(){
-  SPI.begin ();
+  SPI.begin();
   
   Serial.println("Master");
 
@@ -24,32 +24,38 @@ MasterApp::MasterApp():App(){
   // print outgoing character
   Serial.print("Sent: ");
   Serial.println(outgoing);
-  
+
+  //SPI.beginTransaction (SPISettings (1000, MSBFIRST, SPI_MODE0));  // 1Khz clock
   // enable Slave Select
   digitalWrite(SS, LOW);
   delayMicroseconds(20);    
 
+  
   // send outgoing character, ignore resonse, this primes the pump
   transferAndWait (outgoing);  
   
   // disable Slave Select
   digitalWrite(SS, HIGH);
-    delayMicroseconds(20);
+  //SPI.endTransaction();
+  delayMicroseconds(20);
 }
 
 void MasterApp::loop(){  
   char outgoing  = nextChar2Send();
   Serial.print("Received: ");
-  
+
+  //SPI.beginTransaction (SPISettings (1000, MSBFIRST, SPI_MODE0));  // 1Khz clock
   // enable Slave Select
   digitalWrite(SS, LOW);   
-    delayMicroseconds(20); 
- 
+  delayMicroseconds(20); 
+
+  
   // send next outgoing character, receive resonse to previous send
   Serial.println((char)transferAndWait (outgoing));  
 
   // disable Slave Select
   digitalWrite(SS, HIGH);
+  //SPI.endTransaction();
 
   delay (slaveProcessingTime);
   

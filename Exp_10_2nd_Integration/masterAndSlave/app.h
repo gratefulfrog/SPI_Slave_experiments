@@ -7,7 +7,7 @@
 #include "SPI_anything.h"
 #include "board.h"
 
-// #define DEBUG
+#define DEBUG
 
 class App{
   protected:

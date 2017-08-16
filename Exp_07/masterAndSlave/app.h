@@ -6,13 +6,12 @@
 
 #include "SPI_anything.h"
 
-typedef struct DataStruct{
+struct DataStruct{
       char c0, 
            c1, 
-           c2,
-           c3;
+           c2;
       int  i0;
-    };
+    }__attribute__((__packed__));
 
 class App{
   protected:

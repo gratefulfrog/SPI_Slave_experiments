@@ -23,7 +23,7 @@ MasterApp::MasterApp():App(){
 }
 
 void MasterApp::loop(){  
-  printSendCount();
+  printSendCount(); 
 
    // print outgoing character that was just sent
   Serial.print("Sent: ");

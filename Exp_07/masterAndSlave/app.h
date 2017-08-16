@@ -6,6 +6,14 @@
 
 #include "SPI_anything.h"
 
+typedef struct DataStruct{
+      char c0, 
+           c1, 
+           c2,
+           c3;
+      int  i0;
+    };
+
 class App{
   protected:
     static const int bigBuffSize         = 20, // enough space for a long string
@@ -14,13 +22,7 @@ class App{
     void printSendCount() const;
     byte transferAndWait (const byte what) const;
 
-    typedef struct DataStruct{
-      char c0, 
-           c1, 
-           c2;
-      int  i0;
-    };
-
+    
   public:
     static const byte nullChar =  '#';
     static const int pauseBetweenSends   = 10;  // microseconds

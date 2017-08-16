@@ -30,7 +30,15 @@ void setup() {
     app = isMaster ? static_cast<App*>(new MasterApp()) 
                    : static_cast<App*>(new SlaveApp());
 }
-
+boolean show = true;
 void loop() {
+  if (show){
+    Serial.print("sizeof int: ");
+    Serial.println(sizeof(int));
+    Serial.print("sizeof DataStruct: ");
+    Serial.println(sizeof(struct DataStruct));
+    show = false;
+    delay(2000);
+  }
   app->loop();
 }

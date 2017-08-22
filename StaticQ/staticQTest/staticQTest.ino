@@ -1,5 +1,6 @@
 
 #include <Arduino.h>
+#include <SPI.h>
 #include "staticQ.h"
 #include "defs.h"
 #include "slaveTest.h"
@@ -11,27 +12,29 @@ const int led = 3;
 Q<testS> *q;
 slaveApp *app;
 
-void show(testS ts){
-  Serial.print("bid: ");
-  Serial.println(ts.bid);
-  Serial.print("cid: ");
-  Serial.println(ts.cid);
-  Serial.print("t  : ");
-  Serial.println(ts.t);
-  Serial.print("v  : ");
-  Serial.println(ts.v);
-}
-
 void setup(){
   Serial.begin(115200);
-  while(!Serial);
+  //while(!Serial);
+
+  // have to send on master in, *slave out*
+  pinMode(MISO, OUTPUT);
+  
+  // turn on SPI in slave mode
+  SPCR |= _BV(SPE);
+
+  // now turn on interrupts
+  SPI.attachInterrupt();
   app = new slaveApp(led);
+  
 }
 
 void loop(){
   app->loop();
 }
-
+// SPI interrupt routine
+ISR (SPI_STC_vect){
+  app->slaveSPI_ISR();
+}
 
 /*
 void setup(){

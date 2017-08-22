@@ -3,6 +3,7 @@
 testS slaveApp::nextTS(){
   static uint8_t count = 0;
   testS ts = {count,count++,micros(),micros()/7.0};
+  show(ts);
   return ts;
 }
 
@@ -14,19 +15,20 @@ slaveApp::slaveApp(int qLed){
   //q = new Q<testS>(nullTS,qLed);
   hbLED = qLed;
   pinMode(hbLED,OUTPUT);
+  Serial.println("Slave");
+  fired =false;
+  startTime = micros();
+  boardId = 1;
+  inFlag = nullChar;
+  lim=0;
+  sendI=0;
 }
 
 // max time = 6 us !!
-slaveApp::loop(){
-  static uint32_t count = 1;
-  static double tTotal = 0.0,
-                maxT = 0;
-  static const char chars[] = {nullChar, 'i', 'b'};
-  static uint8_t ind = 0;
-  uint8_t inFlag = chars[ind];
-  ind = (ind+1) % 3;
-  
-  uint32_t t0 = micros();
+void slaveApp::loop(){
+  static uint32_t count = 0;
+
+  //noInterrupts();
   switch  (inFlag){
   case nullChar:
     break;
@@ -34,33 +36,52 @@ slaveApp::loop(){
     lim = u32Size;
     sendI = 0;
     setT0();
-    outPtr = (uint8_t*)&startTime; 
+    outPtr = (byte*)&startTime; 
+    //Serial.print("outPtr: ");
+    //Serial.println(startTime);
+    inFlag = '#';
     break;
   case 'b':
-    lim = u32Size;
-        sendI = 0;
-    outPtr = (uint8_t*)&boardId; 
+    Serial.println("got a b!");
+    lim = u32Size +2;
+    sendI = 0;
+    outPtr = (byte*)&boardId; 
+    inFlag = '#';
     break;
-  default:
+  case 'a':
     lim = tsSize;
     sendI = 0;
     outgoingTS = nextTS();
-    outPtr = (uint8_t*) &outgoingTS;
+    outPtr = (byte*) &outgoingTS;
+    inFlag = '#';
+    break;
+   default:
+    Serial.println(inFlag);
     break;
   }
+  if (fired){
+    digitalWrite(hbLED,!digitalRead(hbLED));
+    fired=false;
+  }
+    //interrupts();
+  /*
   tTotal += (micros()-t0);
   maxT = max(maxT,tTotal/count);
   Serial.print("avg time: ");
   Serial.print(tTotal/count++);
   Serial.print("   Max time: ");
   Serial.println(maxT);
-  digitalWrite(hbLED,!digitalRead(hbLED));
-  delay (100);
-  
+ 
+  if(!count){
+    digitalWrite(hbLED,!digitalRead(hbLED));
+  }
+  */
+  count = (count+1)%20000; 
 }
-slaveApp::slaveSPI_ISR(){
+void slaveApp::slaveSPI_ISR(){
   // caled when a full byte has arrived, and master is waiting some microseconds
   inFlag  = SPDR;
-  SPDR = (sendI<lim) ? (*(outPtr+sendI++)) : nullChar;
+  SPDR = (sendI++<lim) ? (*outPtr++) : nullChar;
+  fired=true;
 }
 

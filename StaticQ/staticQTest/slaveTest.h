@@ -8,28 +8,28 @@
 
 class slaveApp{
  protected:
-  static const uint8_t u32Size = sizeof( uint32_t),
+  static const uint8_t u32Size = sizeof(unsigned long),
                        tsSize = sizeof(testS);
-  uint32_t boardId = 1,
-           startTime;  
+  uint32_t startTime;
+  unsigned long boardId = 1;  
            
   testS outgoingTS;
   Q<testS> *q;
   int hbLED;
-  volatile uint8_t inFlag,
-    sendI,
-    lim,
-    *outPtr;
-
+  volatile byte inFlag,
+                sendI,
+                lim,
+                *outPtr;
+  volatile bool fired = false;
   testS nextTS();
   void setT0();
   
  public:
   slaveApp(int qLed);
 
-  loop();
+  void loop();
 
-  slaveSPI_ISR();
+  void slaveSPI_ISR();
 };
 
 #endif

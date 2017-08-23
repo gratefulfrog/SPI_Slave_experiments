@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-const int ledfPin = 3;
-const uint32_t showFrequency = 500;
+const int ledPin = 3;
+const uint32_t showFrequency = 100;
 
 const int incDelay = 500; //us
 
@@ -17,7 +17,7 @@ volatile uint8_t  *b[4],
 void flashLed(uint8_t nb){
   nb*=2;
   while(nb--){
-    digitalWrite(ledfPin,!digitalRead(ledfPin)),
+    digitalWrite(ledPin,!digitalRead(ledPin)),
     delay(500);
   }
 }
@@ -26,10 +26,8 @@ void setup(){
   valOut = 1;
   ptr = (uint8_t*)&valOut;
   outIndex = 0;
-  Serial.begin(115200);
-  pinMode(ledfPin,OUTPUT);
-  //digitalWrite(3,0);
-  Serial.println("Slave");
+ // Serial.begin(115200);
+  pinMode(ledPin,OUTPUT);
   flashLed(5);
   
   for (int i=0;i<4;i++){
@@ -45,15 +43,17 @@ void setup(){
 }
 
 void loop(){
-  static long lastFired=0;
+  static long lastFired=0,
+               lastValOut = 0;
   noInterrupts();
   if (fired != lastFired){
     lastFired = fired;
     valOut = (fired % 4) ? valOut : valOut+1;
-    Serial.println(fired);
-    if(!(valOut % showFrequency)){
-      digitalWrite(ledfPin,!digitalRead(ledfPin));
-    }
+  }
+  
+  if(valOut  != lastValOut && !(valOut % showFrequency)){
+    digitalWrite(ledPin,!digitalRead(ledPin));
+    lastValOut = valOut;
   }
   interrupts();
 }

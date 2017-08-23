@@ -1,6 +1,7 @@
+#include "utilities.h"
+#include "spi.h"
 
-#include <Arduino.h>
-#include <SPI.h>
+using namespace std;
 
 const int timeout = 125, //us
           loopPause = 0; //ms
@@ -8,16 +9,29 @@ const uint32_t showFrequency = 2000;
 
 uint8_t b[4];
 
-SPISettings settings;
+const int spiSpeed = 2000000;
 
+SPI *spi;
+
+/*
 void setup(){
   Serial.begin(115200);
   SPI.begin();
   Serial.println("Master");  
 
-  settings = SPISettings (2000000, MSBFIRST, SPI_MODE0);
+  settings = SPISettings (2 000 000, MSBFIRST, SPI_MODE0);
+}
+*/
+int main(){
+  spi = new SPI(0,spiSpeed);
+  cout << "Master" << endl;
+  while (true){
+    loop();
+  }
+  return 0;
 }
 
+  
 void oneShot(bool once){
   uint32_t valIn = 0;
   uint8_t *p = (uint8_t*)&valIn,
@@ -25,44 +39,43 @@ void oneShot(bool once){
   static uint32_t lastValin = 0;
   
   if (once){
-    SPI.beginTransaction (settings);
-    digitalWrite (SS, LOW); 
+    //SPI.beginTransaction (settings);
+    //digitalWrite (SS, LOW); 
     SPI.transfer ('a');  
     delayMicroseconds(timeout);
-    digitalWrite (SS, HIGH);
-    SPI.endTransaction ();  
+    //digitalWrite (SS, HIGH);
+    //SPI.endTransaction ();  
   }
   
   for (int i=0;i<3;i++){
-    SPI.beginTransaction (settings);
-    digitalWrite (SS, LOW);
+    //SPI.beginTransaction (settings);
+    //digitalWrite (SS, LOW);
     //delayMicroseconds(timeout);
     in = SPI.transfer ('#');  
     delayMicroseconds(timeout);
     p[i] =  in;
-    digitalWrite (SS, HIGH);
-    SPI.endTransaction (); 
+    //digitalWrite (SS, HIGH);
+    //SPI.endTransaction (); 
   }
 
-  SPI.beginTransaction (settings);
-  digitalWrite (SS, LOW); 
+  //SPI.beginTransaction (settings);
+  //digitalWrite (SS, LOW); 
   //delayMicroseconds(timeout);
   p[3] = SPI.transfer ('a');  
   delayMicroseconds(timeout);
-  digitalWrite (SS, HIGH);
-  SPI.endTransaction (); 
+  //digitalWrite (SS, HIGH);
+  //SPI.endTransaction (); 
   if(!(valIn % showFrequency)){
-    Serial.print("valIn: ");
-    Serial.println(valIn);
+    cout << "valIn: " << (long) valIn << endl;
   }
   if (lastValin && valIn != lastValin+1){
-    Serial.println("Error!!! out of sequence");
+    cout << "Error!!! out of sequence" << endl;
     for (int i=0;i<4;i++){
       p = (uint8_t*)&valIn,
-      Serial.println(String("p[") + String(i) + String("] : ") + String(p[i]));
+	cout << "p[" << i << "] : " << p[i] << endl;
     }
-    Serial.println(String("last val in : ") + String(lastValin));
-    Serial.println(String("val in : ") + String(valIn));
+    cout << "last val in : " << (long)lastValin << endl;
+    cout << "val in : " << (long) valIn << endl;
     while(1);
   }
   lastValin = valIn;

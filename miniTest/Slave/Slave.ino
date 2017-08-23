@@ -2,7 +2,7 @@
 #include <SPI.h>
 
 const int ledPin = 3;
-const uint32_t showFrequency = 100;
+const uint32_t showFrequency = 500;
 
 const int incDelay = 500; //us
 
@@ -26,13 +26,14 @@ void setup(){
   valOut = 1;
   ptr = (uint8_t*)&valOut;
   outIndex = 0;
- // Serial.begin(115200);
+  //Serial.begin(115200);
+  //Serial.println("Slave");
   pinMode(ledPin,OUTPUT);
   flashLed(5);
   
   for (int i=0;i<4;i++){
     b[i] = ptr+i;
-    //Serial.println(String("b[") + String(i) + String("] : ") + String(*b[i]));
+    Serial.println(String("b[") + String(i) + String("] : ") + String(*b[i]));
   }
   // have to send on master in, *slave out*
   pinMode(MISO, OUTPUT);
@@ -53,6 +54,7 @@ void loop(){
   
   if(valOut  != lastValOut && !(valOut % showFrequency)){
     digitalWrite(ledPin,!digitalRead(ledPin));
+    //Serial.println(valOut);
     lastValOut = valOut;
   }
   interrupts();

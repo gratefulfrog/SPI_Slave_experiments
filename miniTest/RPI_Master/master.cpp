@@ -3,35 +3,14 @@
 
 using namespace std;
 
-const int timeout = 125, //us
-          loopPause = 0; //ms
+const int timeout = 100, //us
+  loopPause = 1; //ms
 const uint32_t showFrequency = 2000;
-
-uint8_t b[4];
 
 const int spiSpeed = 2000000;
 
 SPI *spi;
 
-/*
-void setup(){
-  Serial.begin(115200);
-  SPI.begin();
-  Serial.println("Master");  
-
-  settings = SPISettings (2 000 000, MSBFIRST, SPI_MODE0);
-}
-*/
-int main(){
-  spi = new SPI(0,spiSpeed);
-  cout << "Master" << endl;
-  while (true){
-    loop();
-  }
-  return 0;
-}
-
-  
 void oneShot(bool once){
   uint32_t valIn = 0;
   uint8_t *p = (uint8_t*)&valIn,
@@ -39,32 +18,18 @@ void oneShot(bool once){
   static uint32_t lastValin = 0;
   
   if (once){
-    //SPI.beginTransaction (settings);
-    //digitalWrite (SS, LOW); 
-    SPI.transfer ('a');  
+    spi->transfer ('a');  
     delayMicroseconds(timeout);
-    //digitalWrite (SS, HIGH);
-    //SPI.endTransaction ();  
   }
   
   for (int i=0;i<3;i++){
-    //SPI.beginTransaction (settings);
-    //digitalWrite (SS, LOW);
-    //delayMicroseconds(timeout);
-    in = SPI.transfer ('#');  
+    in = spi->transfer ('#');  
     delayMicroseconds(timeout);
     p[i] =  in;
-    //digitalWrite (SS, HIGH);
-    //SPI.endTransaction (); 
   }
 
-  //SPI.beginTransaction (settings);
-  //digitalWrite (SS, LOW); 
-  //delayMicroseconds(timeout);
-  p[3] = SPI.transfer ('a');  
+  p[3] = spi->transfer ('a');  
   delayMicroseconds(timeout);
-  //digitalWrite (SS, HIGH);
-  //SPI.endTransaction (); 
   if(!(valIn % showFrequency)){
     cout << "valIn: " << (long) valIn << endl;
   }
@@ -89,4 +54,19 @@ void loop(){
   }
   
   delay(loopPause);
+}
+
+int main(){
+  spi = new SPI(0,spiSpeed);
+  cout << "Master" << endl;
+  for (int i=0;i<5;i++){
+    cout << "Starting in " << 5 -i << " secs..." << endl;
+    delay(1000);
+  }
+  cout << "Go!" << endl << endl;
+  
+  while (true){
+    loop();
+  }
+  return 0;
 }

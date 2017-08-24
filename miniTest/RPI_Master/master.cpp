@@ -3,8 +3,17 @@
 
 using namespace std;
 
+#define SLOW_CLOCK
+
+
+#ifdef SLOW_CLOCK
+const int timeout = 200, //us
+  loopPause = 2; //ms
+#else
 const int timeout = 100, //us
   loopPause = 1; //ms
+#endif
+
 const uint32_t showFrequency = 2000;
 
 const int spiSpeed = 2000000;

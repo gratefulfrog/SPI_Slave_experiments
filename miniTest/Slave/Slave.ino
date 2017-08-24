@@ -28,13 +28,15 @@
 #define AEM_BOARD
 
 #ifdef AEM_BOARD
-  const int ledPin = 55;
+  const int ledPin = 36;
 #else
   const int ledPin = 3;
 #endif
-
+#ifdef SLOW_CLOCK
+const uint32_t showFrequency = 100;
+#else
 const uint32_t showFrequency = 500;
-
+#endif
 const int incDelay = 500; //us
 
 volatile long fired = 0;

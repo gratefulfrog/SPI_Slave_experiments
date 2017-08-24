@@ -1,6 +1,9 @@
 #include <Arduino.h>
 #include <SPI.h>
 
+//#define SLOW_CLOCK
+
+
 const int ledPin = 3;
 const uint32_t showFrequency = 500;
 
@@ -23,6 +26,13 @@ void flashLed(uint8_t nb){
 }
 
 void setup(){
+#ifdef SLOW_CLOCK
+    noInterrupts();
+    CLKPR = _BV(CLKPCE);  // enable change of the clock prescaler
+    CLKPR = _BV(CLKPS0);  // divide frequency by 2
+    interrupts();
+#endif
+
   valOut = 1;
   ptr = (uint8_t*)&valOut;
   outIndex = 0;

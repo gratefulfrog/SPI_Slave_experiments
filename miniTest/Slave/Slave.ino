@@ -5,6 +5,7 @@
 /* A Simple slave that demonstrates SPI and interrupt handling
  *  USAGE:
  *  1. if you are running an atmega2650 at 3.3v uncomment the #define SLOW_CLOCK
+ *  1.1 if on AEM board, #define AEM_BOARD
  *  2. upload the code.
  *  3. atmega2650 wiring:
  *     CLK   = D31 WHITE
@@ -24,9 +25,14 @@
 
 
 #define SLOW_CLOCK
+#define AEM_BOARD
 
+#ifdef AEM_BOARD
+  const int ledPin = 55;
+#else
+  const int ledPin = 3;
+#endif
 
-const int ledPin = 3;
 const uint32_t showFrequency = 500;
 
 const int incDelay = 500; //us

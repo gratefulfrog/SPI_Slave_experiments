@@ -1,6 +1,28 @@
 #include "utilities.h"
 #include "spi.h"
 
+/* A Simple Master that demonstrates SPI timing
+ *  USAGE:
+ *  1. Set the #define SLOW_CLOCK if the slave is running at SLOW CLOCK!
+ *  2. compile the code: $ make all
+ *  3. execute $ ./master
+ *  4. RPI wiring:
+ *     CLK   = 23 (GPIO 11) WHITE
+ *     MIS0  = 21 (GPIO 09) BLUE
+ *     MOSI  = 19 (GPIO 10) ORANGE
+ *     SS    = 24 (GPIO 08) YELLOW
+ *     GND   = 06
+ *  5. execution:
+ *     first connect the wires and GND to slave
+ *     power up the slave, wait for it to be ready (5 led flashes)
+ *     run the master
+ *     the master will poll the slave and receive a 4 byte unsigned long int,
+ *     if the numbers received are in sequence, all is good and every 2000 receptions, the incoming value is displayed
+ *     if not, an error message is displayed an processing halts
+ */
+
+
+
 using namespace std;
 
 #define SLOW_CLOCK

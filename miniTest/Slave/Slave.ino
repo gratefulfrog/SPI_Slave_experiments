@@ -1,7 +1,29 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-//#define SLOW_CLOCK
+
+/* A Simple slave that demonstrates SPI and interrupt handling
+ *  USAGE:
+ *  1. if you are running an atmega2650 at 3.3v uncomment the #define SLOW_CLOCK
+ *  2. upload the code.
+ *  3. atmega2650 wiring:
+ *     CLK   = D31 WHITE
+ *     MIS0  = D30 BLUE
+ *     MOSI  = D29 ORANGE
+ *     SS    = D28 YELLOW
+ *     LED   = D3
+ *  4. execution:
+ *     first connect the wires and GND
+ *     then connect a led to D3
+ *     the power up, preferable at 3.3v with SLOW_CLOCK defined
+ *     the LED will flash 5 times
+ *     * at this point the slave is waiting for the master to poll it
+ *     at each poll, the slave sends a 4 byte unsigned long int which is incremented at each send
+ *     every 500 polls, the slave will invert the LED
+ */
+
+
+#define SLOW_CLOCK
 
 
 const int ledPin = 3;

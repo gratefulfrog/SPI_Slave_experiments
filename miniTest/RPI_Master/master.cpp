@@ -28,8 +28,8 @@ using namespace std;
 
 #ifdef SLOW_CLOCK
 #ifdef AEM_BOARD
-const int timeout = 1000, // 300 us
-  loopPause = 30; // 3 ms
+const int timeout = 1500, // 300 us
+  loopPause = 500; // 3 ms
 #else
 const int timeout = 300, // 300 us
   loopPause = 3; // 3 ms

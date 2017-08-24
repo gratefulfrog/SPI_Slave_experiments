@@ -21,24 +21,27 @@
  *     if not, an error message is displayed an processing halts
  */
 
-
-
 using namespace std;
 
 #define SLOW_CLOCK
-
+#define AEM_BOARD
 
 #ifdef SLOW_CLOCK
-const int timeout = 300, //us
-  loopPause = 3; //ms
+#ifdef AEM_BOARD
+const int timeout = 1000, // 300 us
+  loopPause = 30; // 3 ms
+#else
+const int timeout = 300, // 300 us
+  loopPause = 3; // 3 ms
+#endif
 #else
 const int timeout = 100, //100, //us
   loopPause =  1 ;//1; //ms
 #endif
 
-const uint32_t showFrequency = 2000;
+uint32_t showFrequency = 2000;
 
-const int spiSpeed = 2000000;
+const int spiSpeed = 1000000; //2000000;
 
 SPI *spi;
 
@@ -63,12 +66,12 @@ void oneShot(bool once){
   delayMicroseconds(timeout);
   if(!(valIn % showFrequency)){
     cout << "valIn: " << (long) valIn << endl;
-  }
+    }
   if (lastValin && valIn != lastValin+1){
     cout << "Error!!! out of sequence" << endl;
     for (int i=0;i<4;i++){
       p = (uint8_t*)&valIn,
-	cout << "p[" << i << "] : " << p[i] << endl;
+	cout << "p[" << i << "] : " << (int)p[i] << endl;
     }
     cout << "last val in : " << (long)lastValin << endl;
     cout << "val in : " << (long) valIn << endl;
@@ -87,16 +90,24 @@ void loop(){
   delay(loopPause);
 }
 
-int main(){
+int main(int argc, char** argv){
   spi = new SPI(0,spiSpeed);
   cout << "Master" << endl;
-  for (int i=0;i<5;i++){
-    cout << "Starting in " << 5 -i << " secs..." << endl;
-    delay(1000);
-  }
-  cout << "Go!" << endl << endl;
   
-  while (true){
+  if (argc==1){
+    const int startPause = 5;
+    for (int i=0;i<startPause;i++){
+      cout << "Starting in " << startPause -i << " secs..." << endl;
+      delay(1000);
+    }
+    cout << "Go!" << endl << endl;
+    
+    while (true){
+      loop();
+    }
+  }
+  else{
+    showFrequency=1;
     loop();
   }
   return 0;

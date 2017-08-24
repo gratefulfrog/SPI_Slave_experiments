@@ -27,8 +27,8 @@
 
 
 #ifdef SLOW_CLOCK
-const int timeout = 200, //us
-  loopPause = 2; //ms
+const int timeout = 300, //us
+  loopPause = 3; //ms
 #else
 const int timeout = 100, //us
   loopPause = 1; //ms
